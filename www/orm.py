@@ -6,7 +6,7 @@
 # Created Date: Tuesday, December 5th 2017, 10:21:11 pm
 # Author: Wang Hui
 # -----
-# Last Modified: Tue Dec 05 2017
+# Last Modified: Tue Dec 12 2017
 # Modified By: Wang Hui
 # -----
 # Copyright (c) 2017 WH
@@ -59,6 +59,7 @@ def select(sql, args, size=None):
 
 
 'Insert, Update, Delete'
+
 @asyncio.coroutine
 def execute(sql, args):
     log(sql)
@@ -71,4 +72,5 @@ def execute(sql, args):
         except BaseException as e:
             raise
         return affected
+
 
