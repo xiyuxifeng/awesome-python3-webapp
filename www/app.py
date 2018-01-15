@@ -6,7 +6,7 @@
 # Created Date: Monday, December 4th 2017, 11:04:27 pm
 # Author: Wang Hui
 # -----
-# Last Modified: Tue Dec 05 2017
+# Last Modified: Tue Dec 19 2017
 # Modified By: Wang Hui
 # -----
 # Copyright (c) 2017 WH
@@ -14,11 +14,12 @@
 # Life is short, you need Python
 ###
 
+import asyncio
 import logging
-logging.basicConfig(level=logging.INFO)
-import asyncio, os, json, time
-from datetime import datetime
 from aiohttp import web
+
+
+logging.basicConfig(level=logging.INFO)
 
 
 def index(request):
@@ -37,4 +38,3 @@ def init(loop):
 loop = asyncio.get_event_loop()
 loop.run_until_complete(init(loop))
 loop.run_forever()
-
