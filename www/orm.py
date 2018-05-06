@@ -6,7 +6,7 @@
 # Created Date: Tuesday, December 5th 2017, 10:21:11 pm
 # Author: Wang Hui
 # -----
-# Last Modified: Mon Jan 15 2018
+# Last Modified: Sun May 06 2018
 # Modified By: Wang Hui
 # -----
 # Copyright (c) 2017 WH
@@ -117,26 +117,23 @@ class StringField(Field):
 class BolleanField(Field):
     def __init(self, name=None, default=False):
         super().__init__(name, 'boolean', False, default)
-    
+
 
 class FloatField(Field):
     def __init__(self, name=None, primary_key=False, default=0.0):
         super().__init__(name, 'real', primary_key, default)
-    
+  
 
 class TextField(Field):
     def __init__(self, name=None, default=None):
         super().__init__(name, 'text', False, default)
-    
-
-
-
-
+ 
+ 
 class ModelMetaclass(type):
     def __new__(cls, name, bases, attrs):
         if name == 'Model':
             return type.__new__(cls, name, bases, attrs)
-        
+       
         tableName = attrs.get('__table__', None) or name
         logging.info('found model: %s (table: %s)' % (name, tableName))
         mappings = dict()
@@ -150,15 +147,13 @@ class ModelMetaclass(type):
                     # 找到主键
                     if primaryKey:
                         raise ValueError('Duplicate primary key for field: %s' % k)
-                        
+                                               
                     primaryKey = k
                 else:
                     fields.append(k)
                 
         if not primaryKey:
             raise ValueError('Primary key not found')
-        
+      
         for k in mappings.keys():
             attrs.pop(k)
-        
-        
