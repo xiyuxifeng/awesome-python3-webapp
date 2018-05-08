@@ -6,7 +6,7 @@
 # Created Date: Tuesday, December 5th 2017, 10:21:11 pm
 # Author: Wang Hui
 # -----
-# Last Modified: Tue May 08 2018
+# Last Modified: Wed May 09 2018
 # Modified By: Wang Hui
 # -----
 # Copyright (c) 2017 WH
@@ -32,16 +32,17 @@ def create_pool(loop, **kw):
     logging.info('create database connection pool...')
     global __pool
     __pool = yield from aiomysql.create_pool(
+        minsize=kw.get('minsize', 1),
+        maxsize=kw.get('maxsize', 10),
+        loop=loop,
         host=kw.get('host', 'localhost'),
         port=kw.get('port', 3306),
         user=kw['user'],
         password=kw['password'],
         db=kw['db'],
         charset=kw.get('charset', 'utf8'),
-        autocommit=kw.get('autocommit', True),
-        maxsize=kw.get('maxsize', 10),
-        minsize=kw.get('minsize', 1),
-        loop=loop)
+        autocommit=kw.get('autocommit', True)
+        )
 
 
 'Select'
@@ -109,6 +110,11 @@ class Field(object):
                                 self.name)
 
 
+class IntegerField(Field):
+    def __init__(self, name=None, primary_key=False, default=0):
+        super().__init__(name, 'bigint', primary_key, default)
+
+
 class StringField(Field):
     def __init__(self, name=None, primary_key=False, default=None, ddl='varchar(100)'):
         super().__init__(name, ddl, primary_key, default)
@@ -162,15 +168,15 @@ class ModelMetaclass(type):
         for k in mappings.keys():
             attrs.pop(k)
 
-        escaped_fields = list(map(lambda f: '%s' % f, fields))
+        escaped_fields = list(map(lambda f: '`%s`' % f, fields))
         attrs['__mappings__'] = mappings
         attrs['__table__'] = tableName
         attrs['__primary_key__'] = primaryKey
-        attrs['__fileds__'] = fields
-        attrs['__select__'] = 'select %s, %s from %s' % (primaryKey, ', '.join(escaped_fields), tableName)
-        attrs['__insert__'] = 'insert into %s (%s, %s) values(%s)' % (tableName, ', '.join(escaped_fields), primaryKey, create_args_string(len(escaped_fields) + 1))
-        attrs['__update__'] = 'update %s set %s where %s=?' % (tableName, ', '.join(map(lambda f: '%s = ?' % (mappings.get(f).name or f), fields)), primaryKey)
-        attrs['__delete__'] = 'delete from %s where %s=?' % (tableName, primaryKey)
+        attrs['__fields__'] = fields
+        attrs['__select__'] = 'select `%s`, %s from `%s`' % (primaryKey, ', '.join(escaped_fields), tableName)
+        attrs['__insert__'] = 'insert into `%s` (%s, `%s`) values(%s)' % (tableName, ', '.join(escaped_fields), primaryKey, create_args_string(len(escaped_fields) + 1))
+        attrs['__update__'] = 'update `%s` set %s where `%s`=?' % (tableName, ', '.join(map(lambda f: '`%s` = ?' % (mappings.get(f).name or f), fields)), primaryKey)
+        attrs['__delete__'] = 'delete from `%s` where `%s`=?' % (tableName, primaryKey)
         return type.__new__(cls, name, bases, attrs)
 
 
@@ -230,7 +236,7 @@ class Model(dict, metaclass=ModelMetaclass):
     @classmethod
     async def findNumber(cls, selectField, where=None, args=None):
         'find numebr by select and where'
-        sql = ['select %s _num_ from %s' % (selectField, cls.__table__)]
+        sql = ['select %s _num_ from `%s`' % (selectField, cls.__table__)]
         if where:
             sql.append('where')
             sql.append(where)
@@ -242,7 +248,7 @@ class Model(dict, metaclass=ModelMetaclass):
     @classmethod
     async def find(cls, pk):
         'find object by primary key'
-        rs = await select('%s where %s=?' % (cls.__select__, cls.__primary_key__), [pk], 1)
+        rs = await select('%s where `%s`=?' % (cls.__select__, cls.__primary_key__), [pk], 1)
         if len(rs) == 0:
             return None
         return cls(**rs[0])
@@ -266,3 +272,34 @@ class Model(dict, metaclass=ModelMetaclass):
         rows = await execute(self.__delete__, args)
         if rows != 1:
             logging.warn('failed to remove by primary key: affected rows: %s' % rows)
+
+
+'''
+class TestUser(Model):
+    # 定义类的属性到列的映射：
+    id = IntegerField('id', primary_key=True)
+    name = StringField('name')
+
+
+database = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'root',
+    'db': 'test'
+}
+
+
+async def main(loop):
+    await create_pool(loop, **database)
+    user = TestUser()
+    user.id = 2
+    user.name = 'test'
+    await user.save()
+    return user.name
+
+loop = asyncio.get_event_loop()
+
+task = asyncio.ensure_future(main(loop))
+res = loop.run_until_complete(task)
+print(res)
+'''
