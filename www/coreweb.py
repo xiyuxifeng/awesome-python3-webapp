@@ -166,3 +166,4 @@ class RequestHandler(object):
             return dict(error=e.error, data=e.data, message=e.message)
 
     def add_static(app):
+        pass
