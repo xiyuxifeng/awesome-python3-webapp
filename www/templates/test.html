@@ -1,0 +1,29 @@
+<!--
+File: /Users/wanghui/Documents/Python_Workspace/awesome-python3-webapp/www/templates/test.html
+Project: /Users/wanghui/Documents/Python_Workspace/awesome-python3-webapp/www/templates
+Created Date: Thursday, May 17th 2018, 10:37:54 pm
+Author: Wang Hui
+-----
+Last Modified:
+Modified By:
+-----
+Copyright (c) 2018 WH
+
+All shall be well and all shall be well and all manner of things shall be well.
+We're doomed!
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test users - Awesome Python Webapp</title>
+</head>
+<body>
+    <h1> All Users</h1>
+    {% for u in users %}
+    <p>{{ u.name }} / {{ u.email }}</p>
+    {% endfor %}
+</body>
+</html>

@@ -17,10 +17,10 @@
 JSON API definition
 '''
 
+import functools
+import inspect
 import json
 import logging
-import inspect
-import functools
 
 
 class APIError(Exception):

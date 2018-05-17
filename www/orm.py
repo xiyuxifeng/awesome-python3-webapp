@@ -6,7 +6,7 @@
 # Created Date: Tuesday, December 5th 2017, 10:21:11 pm
 # Author: Wang Hui
 # -----
-# Last Modified: Wed May 09 2018
+# Last Modified: Thu May 17 2018
 # Modified By: Wang Hui
 # -----
 # Copyright (c) 2017 WH
@@ -127,7 +127,7 @@ class BolleanField(Field):
 
 class BooleanField(Field):
     def __init__(self, name=None, default=False):
-        super().init(name, 'boolean', False, default)
+        super().__init__(name, 'boolean', False, default)
 
 
 class FloatField(Field):
