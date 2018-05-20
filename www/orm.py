@@ -6,7 +6,7 @@
 # Created Date: Tuesday, December 5th 2017, 10:21:11 pm
 # Author: Wang Hui
 # -----
-# Last Modified: Thu May 17 2018
+# Last Modified: Sun May 20 2018
 # Modified By: Wang Hui
 # -----
 # Copyright (c) 2017 WH
@@ -42,7 +42,7 @@ def create_pool(loop, **kw):
         db=kw['db'],
         charset=kw.get('charset', 'utf8'),
         autocommit=kw.get('autocommit', True)
-        )
+    )
 
 
 'Select'

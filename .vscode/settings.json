@@ -1,32 +1,5 @@
 {
     "python.pythonPath": "/usr/local/bin/python3",
     "files.trimFinalNewlines": true,
-    "files.trimTrailingWhitespace": true,
-    "better-comments.tags": [
-        {
-            "tag": "!",
-            "color": "#FF2D00",
-            "strikethrough": false
-        },
-        {
-            "tag": "?",
-            "color": "#3498DB",
-            "strikethrough": false
-        },
-        {
-            "tag": "//",
-            "color": "#474747",
-            "strikethrough": true
-        },
-        {
-            "tag": "todo",
-            "color": "#FF8C00",
-            "strikethrough": false
-        },
-        {
-            "tag": "*",
-            "color": "#98C379",
-            "strikethrough": false
-        }
-    ]
+    "files.trimTrailingWhitespace": true
 }
