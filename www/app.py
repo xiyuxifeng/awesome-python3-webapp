@@ -6,7 +6,7 @@
 # Created Date: Monday, December 4th 2017, 11:04:27 pm
 # Author: Wang Hui
 # -----
-# Last Modified: Thu May 17 2018
+# Last Modified: Tue May 22 2018
 # Modified By: Wang Hui
 # -----
 # Copyright (c) 2017 WH
@@ -69,7 +69,7 @@ async def fata_factoty(app, handler):
         if request.method == 'POST':
             if request.content_type.startswith('application/json'):
                 request.__data__ = await request.json()
-                logging.info('request json: %s' % str(requst.__data__))
+                logging.info('request json: %s' % str(request.__data__))
             elif request.content_type.startswith('application/x-www-form-urlencoded'):
                 request.__data__ = await request.post()
                 logging.info('request form: %s' % str(request.__data__))
@@ -99,7 +99,7 @@ async def response_factory(app, handler):
         if isinstance(r, dict):
             template = r.get('__template__')
             if template is None:
-                resp = web.Response(body=json.dump(r, ensure_ascii=False, default=lambda o: o.__dict__).encode('utf-8'))
+                resp = web.Response(body=json.dumps(r, ensure_ascii=False, default=lambda o: o.__dict__).encode('utf-8'))
                 resp.content_type = 'application/json;charset=utf-8'
                 return resp
             else:
@@ -142,7 +142,7 @@ async def init(loop):
     app = web.Application(loop=loop, middlewares=[
         logger_factory, response_factory
     ])
-    init_jinja2(app, filter=dict(datetime=datetime_filter))
+    init_jinja2(app, filters=dict(datetime=datetime_filter))
     add_routes(app, 'handlers')
     add_static(app)
 
