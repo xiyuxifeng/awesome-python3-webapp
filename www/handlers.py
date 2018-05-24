@@ -40,7 +40,7 @@ def user2cookie(user, expireDelta):
     # build cookie string by: id-expires-sha1
     expires = str(int(time.time() + expireDelta))
     s = '%s-%s-%s-%s' % (user.id, user.passwd, expires, _COOKIE_KEY)
-    L = [user.id, expires, hashlib.sha1(s.encode('utf-8').hexdigest())]
+    L = [user.id, expires, hashlib.sha1(s.encode('utf-8')).hexdigest()]
     return "-".join(L)
 
 
@@ -64,7 +64,7 @@ async def cookie2user(cookie_str):
         if user is None:
             return None
         s = '%s-%s-%s-%s' % (uid, user.passwd, expires, _COOKIE_KEY)
-        if sha1 != hashlib.sha1(s.encode('utf-8').hexdigest()):
+        if sha1 != hashlib.sha1(s.encode('utf-8')).hexdigest():
             logging.info('invalid sha1')
             return None
         user["passwd"] = '*******'
@@ -102,12 +102,12 @@ def register():
 @get('/signin')
 def signin():
     return {
-        '__template__': 'sigin.html'
+        '__template__': 'signin.html'
     }
 
 
 @post('/api/authenticate')
-async def authenticate(email, passwd):
+async def authenticate(*, email, passwd):
     if not email:
         raise APIValueError('email', 'Invalid email')
     if not passwd:
@@ -151,7 +151,7 @@ _RE_SHA1 = re.compile(r'^[0-9a-f]{40}$')
 
 
 @post('/api/users')
-async def api_register_user(email, name, passwd):
+async def api_register_user(*, email, name, passwd):
     if not name or not name.strip():
         raise APIValueError('name is None')
     if not email or not _RE_EMAIL.match(email):

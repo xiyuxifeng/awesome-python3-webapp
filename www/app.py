@@ -6,7 +6,7 @@
 # Created Date: Monday, December 4th 2017, 11:04:27 pm
 # Author: Wang Hui
 # -----
-# Last Modified: Tue May 22 2018
+# Last Modified: Fri May 25 2018
 # Modified By: Wang Hui
 # -----
 # Copyright (c) 2017 WH
@@ -62,6 +62,10 @@ async def logger_factory(app, handler):
         logging.info('Request: %s %s' % (request.method, request.path))
         return (await handler(request))
     return logger
+
+
+# auth_factory
+
 
 
 async def fata_factoty(app, handler):
