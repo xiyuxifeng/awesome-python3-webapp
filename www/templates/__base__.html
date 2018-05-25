@@ -8,6 +8,7 @@ Copyright (c) 2018 WH
 All shall be well and all shall be well and all manner of things shall be well.
 We're doomed!
 -->
+
 <!DOCTYPE html>
 <!--
 {% macro pagination(url, page) %}
@@ -60,14 +61,12 @@ We're doomed!
             </ul>
             <div class="uk-navbar-flip">
                 <ul class="uk-navbar-nav">
-                    {% if  __user__ %}
-                        <li  class="uk-parent" data-uk-dropdown>
+                    {% if __user__ %}
+                        <li>
                             <a href="#0"><i class="uk-icon-user"></i>{{ __user__.name }}</a>
-                            <div class="uk-dropdown uk-dropdown-navbar">
-                                <ul class="uk-nav uk-nav-navbar">
-                                    <li><a href="/signout"><i class="uk-icon-sign-out"></i> 登出</a></li>
-                                </ul>
-                            </div>
+                        </li>
+                        <li>
+                            <a href="/signout"><i class="uk-icon-sign-out"></i> 登出</a>
                         </li>
                     {% else %}
                         <li><a href="/signin"><i class="uk-icon-sign-in"></i> 登陆</a></li>

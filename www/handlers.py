@@ -17,14 +17,14 @@
 '''
 url handlers
 '''
-
 import re, time, json, logging, hashlib, base64, asyncio
 
 from aiohttp import web
 
 from coreweb import get, post
-from models import User, Comment, Blog, next_id
 from apis import APIError, APIValueError, APIResourceNotFoundError
+
+from models import User, Comment, Blog, next_id
 from config import configs
 
 
@@ -52,7 +52,7 @@ async def cookie2user(cookie_str):
         return None
 
     try:
-        L = cookie_str.split('-', comments=False, posix=True)
+        L = cookie_str.split('-')
         if len(L) != 3:
             return None
 
@@ -88,14 +88,15 @@ async def index(request):
 
     return {
         '__template__': 'blogs.html',
-        'blogs': blogs
+        'blogs': blogs,
+        '__user__': request.__user__
     }
 
 
 @get('/register')
 def register():
     return {
-        '__template__': 'register.html'
+        '__template__': 'register.html',
     }
 
 
@@ -137,7 +138,7 @@ async def authenticate(*, email, passwd):
     return r
 
 
-@get('/sigout')
+@get('/signout')
 def signout(request):
     referer = request.headers.get('Referer')
     r = web.HTTPFound(referer or '/')
