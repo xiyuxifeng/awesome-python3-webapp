@@ -6,7 +6,7 @@
 # Created Date: Monday, December 4th 2017, 11:04:27 pm
 # Author: Wang Hui
 # -----
-# Last Modified: Fri May 25 2018
+# Last Modified: Sat May 26 2018
 # Modified By: Wang Hui
 # -----
 # Copyright (c) 2017 WH
@@ -81,7 +81,7 @@ async def auth_factory(app, handler):
     return auth
 
 
-async def fata_factoty(app, handler):
+async def data_factoty(app, handler):
     async def parse_data(request):
         if request.method == 'POST':
             if request.content_type.startswith('application/json'):
