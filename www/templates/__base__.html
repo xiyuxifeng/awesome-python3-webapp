@@ -10,7 +10,7 @@ We're doomed!
 -->
 
 <!DOCTYPE html>
-
+<!--
  {% macro pagination(url, page) %}
     <ul class="uk-pagination">
         {% if page.has_previous %}
@@ -26,6 +26,7 @@ We're doomed!
         {% endif %}
     </ul>
 {% endmacro %}
+-->
 
 <html>
 <head>
@@ -62,9 +63,9 @@ We're doomed!
             <div class="uk-navbar-flip">
                 <ul class="uk-navbar-nav">
                     {% if __user__ %}
-                        {% if __user__.admin %}
+                        <!-- {% if __user__.admin %}
                             <li><a href="/manage/blogs/create"><i class="uk-icon-edit"></i> 创建日志</a></li>
-                        {% endif %}
+                        {% endif %} -->
                         <li>
                             <a href="#0"><i class="uk-icon-user"></i>{{ __user__.name }}</a>
                         </li>
@@ -94,7 +95,7 @@ We're doomed!
                     <a target="_blank" href="http://www.linkedin.com/in/liaoxuefeng" class="uk-icon-button uk-icon-linkedin-square"></a>
                     <a target="_blank" href="https://twitter.com/liaoxuefeng" class="uk-icon-button uk-icon-twitter"></a>
                 </p>
-                <p>Powered by <a href="http://awesome.liaoxuefeng.com">Awesome Python Webapp</a>. Copyright &copy; 2014. [<a href="/manage/" target="_blank">Manage</a>]</p>
+                <p>Powered by <a href="http://awesome.liaoxuefeng.com">Awesome Python Webapp</a>. Copyright &copy; 2014.{% if __user__.admin %} [<a href="/manage/blogs" target="_blank">Manage</a>]{% endif %}</p>
                 <p><a href="http://www.liaoxuefeng.com/" target="_blank">www.liaoxuefeng.com</a>. All rights reserved.</p>
                 <a target="_blank" href="http://www.w3.org/TR/html5/"><i class="uk-icon-html5" style="font-size:64px; color: #444;"></i></a>
             </div>
