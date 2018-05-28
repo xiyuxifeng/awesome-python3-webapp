@@ -6,7 +6,7 @@
 # Created Date: Monday, December 4th 2017, 11:04:27 pm
 # Author: Wang Hui
 # -----
-# Last Modified: Sat May 26 2018
+# Last Modified: Mon May 28 2018
 # Modified By: Wang Hui
 # -----
 # Copyright (c) 2017 WH
@@ -136,7 +136,6 @@ async def response_factory(app, handler):
         resp = web.Response(body=str(r).encode('utf-8'))
         resp.content_type = 'text/plain;charset=utf-8'
         return resp
-
     return response
 
 
